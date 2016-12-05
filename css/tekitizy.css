@@ -5,8 +5,7 @@
   margin: 0;
   top: 0;
   left: 0;
-  background-color: #000;
-  opacity: 0.90;
+  background-color: rgba(0, 0, 0, 0.9);
   display: none;
 }
 
@@ -14,38 +13,54 @@
   display: block;
 }
 
+.tekitizy-button {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+}
+
 .tekitizy-open-btn {
-  
+
 }
 
 .tekitizy-close-btn {
-
+  top: 3%;
+  left: 95%;
 }
 
 .tekitizy-next-btn {
-
+  top: 45%;
+  left: 90%;
 }
 
 .tekitizy-prev-btn {
-
+  top: 45%;
+  left: 10%;
 }
 
 .tekitizy-play-btn {
-
+  top: 87%;
+  left: 54%;
 }
 
 .tekitizy-pause-btn {
-
+  top: 87%;
+  left: 43%;
 }
 
-.tekitity-image-container {
-
+.tekitizy-image-container {
+  width: 70%;
+  height: 100%;
+  margin: auto;
+  margin-top: 6%;
+  text-align: center;
 }
 
 .tekitizy-image-content {
-
+  height: 70%;
 }
 
 .tekitizy-imate-title {
-
+  margin-top: 5%;
+  max-height: 20%;
 }
