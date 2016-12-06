@@ -6,6 +6,7 @@ function Tekitizy (selector, options) {
   } else {
     this.carroussel_id = 'tekitizy_carroussel'
   }
+  this.options = options
   this.index = 0
   this.listImg = []
   this.auto = options.autoPlay
@@ -138,6 +139,7 @@ Tekitizy.prototype.actionShow = function (zoom) {
 
 Tekitizy.prototype.actionNext = function () {
   var index = parseInt(this.index) + 1
+
   if (this.listImg[index]) {
     if (this.options.effect) {
       this.slideEffect()
@@ -153,6 +155,7 @@ Tekitizy.prototype.actionNext = function () {
 
 Tekitizy.prototype.actionPrev = function () {
   var index = parseInt(this.index) - 1
+
   if (this.listImg[index]) {
     var prevImgSrc = this.listImg[index].src
     $('.tekitizy-image-content').attr('src', prevImgSrc)
@@ -173,11 +176,12 @@ Tekitizy.prototype.actionPlay = function () {
 }
 
 Tekitizy.prototype.actionPause = function () {
+  this.auto = false;
   clearInterval(this.player)
-  this.auto = false
 }
 
 Tekitizy.prototype.actionClose = function () {
+  this.actionPause()
   this.carroussel.removeClass('tekitizy-carroussel-open')
 }
 
