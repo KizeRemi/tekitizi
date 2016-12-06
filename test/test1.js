@@ -6,6 +6,12 @@ function Tekitizy (selector, options) {
     this.carroussel_id = 'tekitizy_carroussel'
   }
   this.index = 0
+  this.listImg = []
+  this.prevNext = options.prevNext
+  this.play = options.play
+  this.auto = options.autoPlay
+  this.imageDuration = options.imageDuration
+  this.effect = options.effect
   // this.selector <- selector (paramètre)
   // this.carrousel_id <- 'tekitizy_carroussel' ou options.carroussel_id
 }
@@ -14,7 +20,6 @@ function Tekitizy (selector, options) {
 // Tekitizy.setup('.post img')
 Tekitizy.setup = function (imgSelector, opts) {
   $(document).ready(function () {
-    var tekitizy
     tekitizy = new Tekitizy(imgSelector, opts)
     tekitizy.setup()
   })
@@ -31,7 +36,6 @@ Tekitizy.prototype.setup = function () {
 Tekitizy.prototype.listenToButtons = function () {
   // this -> instance Tekitizy
   var _this = this
-
   $('.tekitizy-open-btn').on('click', function () {
     // this -> noeud
     // _this -> instance Tekitizy
@@ -80,7 +84,6 @@ Tekitizy.prototype.drawCarroussel = function (id) {
 
 Tekitizy.prototype.appendZoomBtn = function (selector) {
   $(selector).each(function () {
-    // image
     var $el
     var image_src
     $el = $(this)
@@ -93,10 +96,13 @@ Tekitizy.prototype.appendZoomBtn = function (selector) {
 }
 
 Tekitizy.prototype.indexImages = function () {
-  var i = 1
+  var i = 0
+  var _this = this
+  
   $('.tekitizy-container').each(function () {
     $(this).find('.tekitizy-open-btn').attr('data-index', i)
     i++
+    _this.listImg.push($(this).find('img'))
   })
 }
 
@@ -105,44 +111,57 @@ Tekitizy.prototype.actionShow = function (zoom) {
   this.carroussel.addClass('tekitizy-carroussel-open')
   var index = zoom.attr('data-index')
   this.index = index
-  var url = zoom.prev().attr('src')
+  var url = this.listImg[index].attr('src')
   $('.tekitizy-image-content').attr('src', url)
+  console.log(this)
 }
 
 Tekitizy.prototype.actionNext = function () {
-  var _this = this
 
-  var index = parseInt(_this.index) + 1
-
+  var index = parseInt(this.index) + 1
   var nextimg = $('.tekitizy-open-btn[data-index="' + index + '"]')
-
-  if (nextimg[0]) {
-    var nextimgsrc = nextimg.prev().attr('src')
+  if (this.listImg[index]) {
+    var nextimgsrc = this.listImg[index].attr('src')
     $('.tekitizy-image-content').attr('src', nextimgsrc)
-    _this.index = index
+    this.index = index
   }
 }
 
 Tekitizy.prototype.actionPrev = function () {
-  var _this = this
-
-  var index = parseInt(_this.index) - 1
-
-  var previmg = $('.tekitizy-open-btn[data-index="' + index + '"]')
-
-  if (previmg[0]) {
-    var previmgsrc = previmg.prev().attr('src')
-    $('.tekitizy-image-content').attr('src', previmgsrc)
-    _this.index = index
+  var index = parseInt(this.index) - 1
+  var nextimg = $('.tekitizy-open-btn[data-index="' + index + '"]')
+  if (this.listImg[index]) {
+    var nextimgsrc = this.listImg[index].attr('src')
+    $('.tekitizy-image-content').attr('src', nextimgsrc)
+    this.index = index
   }
 }
 
 Tekitizy.prototype.actionPlay = function () {
-
+  var _this = this
+  var direction = 'right'
+  this.auto = true
+  console.log(this)
+  var interval = setInterval(function() { 
+    if(_this.auto == false){
+      clearInterval(interval)
+    }
+    if(direction == 'right'){
+      _this.actionNext()
+      if(_this.listImg.length-1 == _this.index){
+        direction = 'left';
+      }
+    } else {
+      _this.actionPrev()
+      if(0 == _this.index){
+        direction = 'right';
+      }
+    }
+  }, _this.imageDuration*1000);
 }
 
 Tekitizy.prototype.actionPause = function () {
-
+  this.auto = false;
 }
 
 Tekitizy.prototype.actionClose = function () {
