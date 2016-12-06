@@ -56,7 +56,14 @@
   </p>
 </div>
 <script>
-Tekitizy.setup('.post img')
+Tekitizy.setup('.post img', {
+  prevNext: true, // affiche les boutons suivant/précédent - Etape 2
+  play: true, // ajoute la fonctionnalité play / pause - Etape 3
+  autoPlay: true, // démarre automatiquement l'animation - Etape 3
+  imageDuration: 2, // en secondes le temps qu'apparaît une image quand l'animation tourne - Etape 3
+  effect: false, // peut être `true`: une image pousse l'autre (de gauche à droite ou de droite à gauche suivant l'action, Etape 4)
+  thumbnails: false // affiche l'action "planche contact" (Thumbnails) - Etape BONUS
+})
 </script>
 </body>
 </html>
