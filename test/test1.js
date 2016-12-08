@@ -9,8 +9,10 @@ function Tekitizy (selector, options) {
   this.options = options
   this.index = 0
   this.listImg = []
+  this.page = 0
   this.auto = options.autoPlay
   this.imageDuration = options.imageDuration
+  this.thumbnails = options.thumbnails
 }
 
 // Tekitizy.setup('.post img',{ carrousse_id: 'my-tekitizy' })
@@ -25,12 +27,14 @@ Tekitizy.setup = function (imgSelector, opts) {
 Tekitizy.prototype.setup = function () {
   this.drawCarroussel(this.carroussel_id)
   this.appendZoomBtn(this.selector, this.clickZoomBtn)
-  this.listenToButtons()
   this.indexImages()
+  if(this.thumbnails){
+    this.drawThumbNails()
+  } // ...
+  this.listenToButtons()
   if (this.auto) {
     this.actionPlay()
   }
-  // ...
 }
 
 Tekitizy.prototype.listenToButtons = function () {
@@ -40,6 +44,7 @@ Tekitizy.prototype.listenToButtons = function () {
     if (_this.options.autoPlay) {
       _this.actionPlay()
     }
+    _this.drawImages()
   })
 
   $('.tekitizy-close-btn').on('click', function () {
@@ -66,18 +71,29 @@ Tekitizy.prototype.listenToButtons = function () {
   $('.tekitizy-pause-btn').on('click', function () {
     _this.actionPause()
   })
+
+  if(this.thumbnails){
+    $('.tekitizy-chevron-left').on('click', function () {
+      _this.actionThumbPrev()
+    })
+
+    $('.tekitizy-chevron-right').on('click', function () {
+      _this.actionThumbNext()
+    })   
+
+    $('.tekitizy-thumbnail-image-content').on('click', function () {
+      var index = $(this).attr('data-index')
+      _this.actionShowThumb(index)
+    })  
+  }
 }
 
 Tekitizy.prototype.drawCarroussel = function (id) {
   var carroussel = ''
 
   carroussel += '<div class="tekitizy-carroussel" id=' + id + '>'
-  carroussel += '<div class="tekitizy-image-container">'
-  carroussel += '<img class="tekitizy-image-content" src="">'
-  if (this.options.effect) {
-    carroussel += '<img class="tekitizy-image-slide" src="">'
-  }
-  carroussel += '<div class="tekitizy-image-title"></div>'
+  carroussel += '<div class="tekitizy-image-slider">'
+  carroussel += '<div class="tekitizy-list-container"></div>'
   carroussel += '</div>'
   carroussel += '<img class="tekitizy-button tekitizy-close-btn" src="../images/croix_rouge.png">'
   if (this.options.prevNext) {
@@ -89,10 +105,38 @@ Tekitizy.prototype.drawCarroussel = function (id) {
     carroussel += '<img class="tekitizy-button tekitizy-pause-btn" src="../images/pause.png">'
   }
   carroussel += '</div>'
+  carroussel += '<div class="tekitizy-image-title"></div>'
+  carroussel += '</div>'
+  carroussel += '</div>'
   // Ajouter les boutons, la figure ..
   this.carroussel = $(carroussel)
   this.carroussel.appendTo($('body'))
 }
+
+Tekitizy.prototype.drawImages= function (id) {
+  _this = this
+  var margin = $('.tekitizy-image-slider').width()
+  $.each( _this.listImg, function( key, value ) {
+    $('.tekitizy-list-container').append('<div class="tekitizy-image-container"><img class="tekitizy-image-content" data-index="'+key+'" src="'+value.src+'"></div>').width()
+    $('.tekitizy-image-container').last().css('margin-left', margin*key)
+  });
+}
+
+Tekitizy.prototype.drawThumbNails= function () {
+  _this = this
+  $('.tekitizy-carroussel').append('<div class="tekitizy-thumbnail"><div class="thumbnail-list-container"></div></div>')
+  $('.tekitizy-thumbnail').append('<div class="tekitizy-chevron-left"><i class="fa fa-chevron-left tekitizy-chevron-left" aria-hidden="true"></i></div>')
+  $.each( _this.listImg, function( key, value ) {
+    if( key%3 == 0){
+      _this.page = key/3
+    }
+    $('.thumbnail-list-container').append('<div class="tekitizy-thumbnail-image-container"><img class="tekitizy-thumbnail-image-content" data-page="'+ _this.page +'" data-index="'+key+'" src="'+value.src+'"></div>')
+  });
+  _this.page = 0
+  $('.tekitizy-thumbnail').append('<div class="tekitizy-chevron-right"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>')
+
+}
+
 
 Tekitizy.prototype.appendZoomBtn = function (selector) {
   $(selector).each(function () {
@@ -106,7 +150,7 @@ Tekitizy.prototype.appendZoomBtn = function (selector) {
         .append('<i class="tekitizy-open-btn fa fa-search" data-src="' + imageSrc + '"  aria-hidden="true"></i>')
   })
 }
-
+ 
 Tekitizy.prototype.indexImages = function () {
   var i = 0
   var _this = this
@@ -119,48 +163,57 @@ Tekitizy.prototype.indexImages = function () {
   })
 }
 
-// affiche une image
+  // affiche une image
 Tekitizy.prototype.actionShow = function (zoom) {
   this.carroussel.addClass('tekitizy-carroussel-open')
   var index = zoom.attr('data-index')
   this.index = index
-  var url = this.listImg[index].src
-  $('.tekitizy-image-content').attr('src', url)
-  $('.tekitizy-image-title').html(this.listImg[index].title)
-  if (this.options.effect) {
-    var nextIndex = 0
-    if (this.listImg[parseInt(index) + 1]) {
-      nextIndex = parseInt(index) + 1
-    }
-    var urlSlide = this.listImg[nextIndex].src
-    $('.tekitizy-image-slide').attr('src', urlSlide)
-  }
+  var margin = $('.tekitizy-image-slider').width()
+  $('.tekitizy-list-container').css('margin-left', '-'+margin*index+'px')
 }
 
 Tekitizy.prototype.actionNext = function () {
+  _this = this
   var index = parseInt(this.index) + 1
-
+  var margin =  $('.tekitizy-image-slider').width()
   if (this.listImg[index]) {
-    if (this.options.effect) {
-      this.slideEffect()
-    } else {
-      var nextImgSrc = this.listImg[index].src
-      $('.tekitizy-image-content').attr('src', nextImgSrc)
+    if(this.thumbnails){
+      $('.tekitizy-thumbnail-image-content[data-index="'+this.index+'"]').css('opacity','0.5')
     }
+    $( ".tekitizy-list-container" ).animate({
+        marginLeft: '-'+index*100+'%'
+    }, 500);
 
     $('.tekitizy-image-title').html(this.listImg[index].title)
     this.index = index
+    if(this.thumbnails){
+      $('.tekitizy-thumbnail-image-content[data-index="'+index+'"]').css('opacity','1')
+      if(index%3 == 0){
+      _this.actionThumbPage()      
+      }
+    }
   }
 }
 
 Tekitizy.prototype.actionPrev = function () {
   var index = parseInt(this.index) - 1
-
+  var margin = $('.tekitizy-image-slider').width()
   if (this.listImg[index]) {
-    var prevImgSrc = this.listImg[index].src
-    $('.tekitizy-image-content').attr('src', prevImgSrc)
+    if(this.thumbnails){
+      $('.tekitizy-thumbnail-image-content[data-index="'+this.index+'"]').css('opacity','0.5')
+    }
+    $( ".tekitizy-list-container" ).animate({
+        marginLeft: '-'+index*100+'%'
+    }, 500);
+
     $('.tekitizy-image-title').html(this.listImg[index].title)
     this.index = index
+    if(this.thumbnails){
+      $('.tekitizy-thumbnail-image-content[data-index="'+index+'"]').css('opacity','1')
+      if(index%3 == 2){
+      _this.actionThumbPage()      
+      }
+    }
   }
 }
 
@@ -185,25 +238,50 @@ Tekitizy.prototype.actionClose = function () {
   this.carroussel.removeClass('tekitizy-carroussel-open')
 }
 
-Tekitizy.prototype.slideEffect = function () {
-  var _this = this
-  var marginLeft = parseInt($('.tekitizy-image-content').css('marginLeft'))
-  var contentLeft = 2 * (marginLeft - $('.tekitizy-image-content').width())
-  $('.tekitizy-image-slide').css('display', 'inline-block')
+Tekitizy.prototype.actionShowThumb = function (index) {
+  this.actionPause()
+  $('.tekitizy-thumbnail-image-content[data-index="'+this.index+'"]').css('opacity','0.5')
+  this.index = index
+  var margin = $('.tekitizy-image-slider').width()
+  $( ".tekitizy-list-container" ).animate({
+      marginLeft: '-'+index*100+'%'
+  }, 500);
+  $('.tekitizy-thumbnail-image-content[data-index="'+this.index+'"]').css('opacity','1')
+}
 
-  $('.tekitizy-image-content').animate({
-    marginLeft: contentLeft,
-  }, 600, function () {
-    var contentSrc = $('.tekitizy-image-slide').attr('src')
-    $('.tekitizy-image-content').attr('src', contentSrc).css('marginLeft', marginLeft)
+Tekitizy.prototype.actionThumbPage = function () {
+  var margin = $('.tekitizy-thumbnail').width()
+  _this = this
+  var currentPage= $('.tekitizy-thumbnail-image-content[data-index="'+_this.index+'"]').attr('data-page')
+  _this.page = currentPage
+  $( ".thumbnail-list-container" ).animate({
+      marginLeft: '-'+currentPage*100+'%'
+  }, 500);
+}
 
-    var index = 0
-    if (_this.listImg[_this.index + 1]) {
-      index = _this.index + 1
-    }
+Tekitizy.prototype.actionThumbNext = function () {
+  var maxPage = Math.ceil(this.listImg.length/3)
+  this.actionPause()
+  var margin = $('.tekitizy-thumbnail').width()
+  _this = this
+  if(this.page+1 < maxPage){
+    _this.page = _this.page + 1
+    $( ".thumbnail-list-container" ).animate({
+        marginLeft: '-'+_this.page*100+'%'
+    }, 500);   
+  }
+}
 
-    var slideSrc = _this.listImg[index].src
+Tekitizy.prototype.actionThumbPrev = function () {
+  this.actionPause()
+  var maxPage = Math.ceil(this.listImg.length/3)
+  var margin = $('.tekitizy-thumbnail').width()
+  _this = this
+  if(this.page-1 >= 0){
+    _this.page = _this.page-1
+    $( ".thumbnail-list-container" ).animate({
+        marginLeft: '-'+_this.page*100+'%'
+    }, 500);
+  }
 
-    $('.tekitizy-image-slide').attr('src', slideSrc).css('display', 'none')
-  })
 }
