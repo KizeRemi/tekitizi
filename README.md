@@ -4,7 +4,7 @@
 Javascript project developed during the Master Web Developer at the ECV Digitale - Paris.
 
 Javascript OpenSource library that allows to integrate a slider of image directly on an html page. Once again
-This library is called, it adds an action button on each image that displays the image in large overlay.
+this library is called, it adds an action button on each image that displays the image in large overlay.
 Several actions are then available for the user.
 
 ## Fonctionalities
@@ -25,7 +25,6 @@ Several actions are then available for the user.
 - Bower: https://bower.io/
 
 ## Installation
-
 Open the terminal or command line, and in the directory of your choice:
 
 ```
@@ -38,7 +37,6 @@ bower install
 ```
 
 ## Integration in your website
-
 In your html page, copy to include dependencies:
 ```
 <script src="../js/tekitizy.js"></script>
@@ -53,10 +51,10 @@ And the script for integrate Tekitizy:
 Tekitizy.setup('#YourElement img', {
   prevNext: true, 
   play: true, 
-  autoPlay: true, // démarre automatiquement l'animation - Etape 3
-  imageDuration: 2, // en secondes le temps qu'apparaît une image quand l'animation tourne - Etape 3
-  effect: true, // peut être `true`: une image pousse l'autre (de gauche à droite ou de droite à gauche suivant l'action, Etape 4)
-  thumbnails: true // affiche l'action "planche contact" (Thumbnails) - Etape BONUS
+  autoPlay: true, 
+  imageDuration: 2, 
+  effect: true, 
+  thumbnails: true 
 })
 </script>
 ```
@@ -65,10 +63,10 @@ The script requires several parameters
 * prevNext: Display buttons next and previous
 * play: Display buttons play and stop
 * autoPlay: Enables automatic scroll by default
-* imageDuration: The duration of an image display during automatic scrolling
+* imageDuration: The duration in seconde of an image during automatic scrolling
 * effect: Activate the slide effect
-* thumbnails: Activate the thumbnail
+* thumbnails: Activate the thumbnails
 
 ## TODO
 - [x] Render of close button
-- [x] More parameters: number of image in thumbnail
+- [x] More parameters: number of image in thumbnails
