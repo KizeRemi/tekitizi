@@ -7,7 +7,7 @@ Javascript OpenSource library that allows to integrate a slider of image directl
 this library is called, it adds an action button on each image that displays the image in large overlay.
 Several actions are then available for the user.
 
-## Fonctionalities
+## Functionalities
 - [x] Discrete zoom button on each image
 - [x] Displays images in full screen with an overlay.
 - [x] Button Next: Go to next image
@@ -66,5 +66,5 @@ The script requires several parameters
 * thumbnails: Activate the thumbnails
 
 ## TODO
-- [x] Render of close button
-- [x] More parameters: number of image in thumbnails
+- [x] Add a parameters for number of image in thumbnails
+- [x] Add a parameter for the width of thumbnails
