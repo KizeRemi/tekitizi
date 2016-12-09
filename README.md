@@ -36,7 +36,7 @@ bower install
 
 ## Integration in your website
 In your html page, copy to include dependencies:
-```
+```html
 <script src="../js/tekitizy.js"></script>
 <script src="../bower_components/jquery/dist/jquery.js"></script>
 <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.css" >
@@ -44,7 +44,7 @@ In your html page, copy to include dependencies:
 ```
 
 And the script for integrate Tekitizy:
-```
+```javascript
 <script>
 Tekitizy.setup('#YourElement img', {
   prevNext: true, 
