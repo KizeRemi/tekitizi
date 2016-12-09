@@ -12,15 +12,25 @@
 .tekitizy-carroussel.tekitizy-carroussel-open {
   display: block;
 }
-
+.tekitizy-container{
+  position: relative;
+}
 .tekitizy-button {
   position: fixed;
   width: 50px;
   height: 50px;
+  font-size:50px;
+  color: white;
+}
+.tekitizy-button:hover {
+  color: grey;
 }
 
 .tekitizy-open-btn {
-
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  color: white
 }
 
 .tekitizy-close-btn {
@@ -39,17 +49,19 @@
 }
 
 .tekitizy-play-btn {
-  top: 87%;
+  top: 75%;
   left: 54%;
+  font-size:70px;
 }
 
 .tekitizy-pause-btn {
-  top: 87%;
+  top: 75%;
   left: 43%;
+  font-size:70px;
 }
 .tekitizy-image-slider {
   width: 70%;
-  height: 100%;
+  height: 70%;
   overflow: hidden;
   position: absolute;
   margin: 0 auto;
@@ -58,14 +70,19 @@
 }
 .tekitizy-list-container {
   position: absolute;
+  height: 100%;
   left: 0;
   right: 0;
 }
 .tekitizy-image-container {
   height: 100%;
-  width:1000px;
+  width:inherit;
   position: absolute;
   text-align: center;
+}
+.tekitizy-image-content {
+    max-height: 100%;
+    max-width: 100%;
 }
 
 .tekitizy-image-title {
@@ -86,9 +103,7 @@
 
 .thumbnail-list-container {
   position: absolute;
-  width: 1000px;
   height: 100px;
-  box-sizing: border-box;
 }
 .tekitizy-thumbnail-image-container {
   text-align: center;
@@ -99,12 +114,11 @@
 }
 
 .tekitizy-thumbnail-image-content {
-  width: 150px;
   opacity: 0.5;
+  max-height: 100%;
 }
 
 .tekitizy-thumbnail-image-content:hover {
-  width: 150px;
   opacity: 1;
 }
 

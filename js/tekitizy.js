@@ -16,8 +16,6 @@ function Tekitizy (selector, options) {
   this.thumbnails = options.thumbnails
 }
 
-// Tekitizy.setup('.post img',{ carrousse_id: 'my-tekitizy' })
-// Tekitizy.setup('.post img')
 Tekitizy.setup = function (imgSelector, opts) {
   $(document).ready(function () {
     var tekitizy = new Tekitizy(imgSelector, opts)
@@ -25,6 +23,7 @@ Tekitizy.setup = function (imgSelector, opts) {
   })
 }
 
+/* Initializing the slider */
 Tekitizy.prototype.setup = function () {
   this.drawCarroussel(this.carroussel_id)
   this.appendZoomBtn(this.selector, this.clickZoomBtn)
@@ -38,6 +37,7 @@ Tekitizy.prototype.setup = function () {
   }
 }
 
+/* Events of each buttons */
 Tekitizy.prototype.listenToButtons = function () {
   var _this = this
   $('.tekitizy-open-btn').on('click', function () {
@@ -75,6 +75,7 @@ Tekitizy.prototype.listenToButtons = function () {
 
   if(this.thumbnails){
     $('.tekitizy-chevron-left').on('click', function () {
+      console.log('jepasseleft')
       _this.actionThumbPrev()
     })
 
@@ -89,6 +90,7 @@ Tekitizy.prototype.listenToButtons = function () {
   }
 }
 
+/* Construction of slider */
 Tekitizy.prototype.drawCarroussel = function (id) {
   var carroussel = ''
 
@@ -96,24 +98,25 @@ Tekitizy.prototype.drawCarroussel = function (id) {
   carroussel += '<div class="tekitizy-image-slider">'
   carroussel += '<div class="tekitizy-list-container"></div>'
   carroussel += '</div>'
-  carroussel += '<img class="tekitizy-button tekitizy-close-btn" src="../images/croix_rouge.png">'
+  carroussel += '<i class="fa fa-window-close-o tekitizy-button tekitizy-close-btn" aria-hidden="true"></i>'
   if (this.options.prevNext) {
-    carroussel += '<img class="tekitizy-button tekitizy-next-btn" src="../images/next.png">'
-    carroussel += '<img class="tekitizy-button tekitizy-prev-btn" src="../images/prev.png">'
+    carroussel += '<i class="fa fa-arrow-right tekitizy-button tekitizy-next-btn" aria-hidden="true"></i>'
+    carroussel += '<i class="fa fa-arrow-left tekitizy-button tekitizy-prev-btn" aria-hidden="true"></i>'
   }
   if (this.options.play) {
-    carroussel += '<img class="tekitizy-button tekitizy-play-btn" src="../images/play.png">'
-    carroussel += '<img class="tekitizy-button tekitizy-pause-btn" src="../images/pause.png">'
+    carroussel += '<i class="fa fa-play-circle-o tekitizy-button tekitizy-play-btn" aria-hidden="true"></i>'
+    carroussel += '<i class="fa fa-pause-circle-o tekitizy-button tekitizy-pause-btn" aria-hidden="true"></i>'
   }
   carroussel += '</div>'
   carroussel += '<div class="tekitizy-image-title"></div>'
   carroussel += '</div>'
   carroussel += '</div>'
-  // Ajouter les boutons, la figure ..
   this.carroussel = $(carroussel)
   this.carroussel.appendTo($('body'))
 }
 
+
+/* Add all images in tekitizy container*/
 Tekitizy.prototype.drawImages= function (id) {
   _this = this
   var margin = $('.tekitizy-image-slider').width()
@@ -121,34 +124,41 @@ Tekitizy.prototype.drawImages= function (id) {
     $('.tekitizy-list-container').append('<div class="tekitizy-image-container"><img class="tekitizy-image-content" data-index="'+key+'" src="'+value.src+'"></div>').width()
     $('.tekitizy-image-container').last().css('margin-left', margin*key)
   });
+  $('.tekitizy-image-container').css('width', margin)
 }
 
+/* Construction of thumbnails */
 Tekitizy.prototype.drawThumbNails= function () {
   _this = this
   $('.tekitizy-carroussel').append('<div class="tekitizy-thumbnail"><div class="thumbnail-list-container"></div></div>')
-  $('.tekitizy-thumbnail').append('<div class="tekitizy-chevron-left"><i class="fa fa-chevron-left tekitizy-chevron-left" aria-hidden="true"></i></div>')
+  $('.tekitizy-thumbnail').append('<div class="tekitizy-chevron-left"><i class="fa fa-chevron-left" aria-hidden="true"></i></div>')
   $.each( _this.listImg, function( key, value ) {
     if( key%3 == 0){
       _this.page = key/3
     }
     $('.thumbnail-list-container').append('<div class="tekitizy-thumbnail-image-container"><img class="tekitizy-thumbnail-image-content" data-page="'+ _this.page +'" data-index="'+key+'" src="'+value.src+'"></div>')
   });
+  var width = $('.tekitizy-thumbnail-image-container').width()
+  console.log(_this.listImg.length)
+  $('.thumbnail-list-container').css('width', width*(_this.listImg.length)+ 10*_this.listImg.length)
   _this.page = 0
   $('.tekitizy-thumbnail').append('<div class="tekitizy-chevron-right"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>')
 
 }
 
-
+/* Add a zoom in each image in element */
 Tekitizy.prototype.appendZoomBtn = function (selector) {
   $(selector).each(function () {
     var $el
     var imageSrc
     $el = $(this)
+    var width = $el.width()
     imageSrc = $el.attr('src')
     $el.wrap('<div></div>') // image
       .parent() // container
         .addClass('tekitizy-container') // container
         .append('<i class="tekitizy-open-btn fa fa-search" data-src="' + imageSrc + '"  aria-hidden="true"></i>')
+    console.log($el.parent().css('width',width))
   })
 }
  
@@ -286,6 +296,7 @@ Tekitizy.prototype.actionThumbNext = function () {
 
 Tekitizy.prototype.actionThumbPrev = function () {
   this.actionPause()
+  console.log('je passe')
   var maxPage = Math.ceil(this.listImg.length/3)
   var margin = $('.tekitizy-thumbnail').width()
   _this = this
