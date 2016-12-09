@@ -10,6 +10,7 @@ function Tekitizy (selector, options) {
   this.index = 0
   this.listImg = []
   this.page = 0
+  this.effect = options.effect
   this.auto = options.autoPlay
   this.imageDuration = options.imageDuration
   this.thumbnails = options.thumbnails
@@ -180,10 +181,13 @@ Tekitizy.prototype.actionNext = function () {
     if(this.thumbnails){
       $('.tekitizy-thumbnail-image-content[data-index="'+this.index+'"]').css('opacity','0.5')
     }
-    $( ".tekitizy-list-container" ).animate({
-        marginLeft: '-'+index*100+'%'
-    }, 500);
-
+    if(this.effect){
+      $( ".tekitizy-list-container" ).animate({
+          marginLeft: '-'+index*100+'%'
+      }, 500);    
+    } else {
+      $( ".tekitizy-list-container" ).css('margin-left' , '-'+index*100+'%')        
+    }
     $('.tekitizy-image-title').html(this.listImg[index].title)
     this.index = index
     if(this.thumbnails){
@@ -202,9 +206,13 @@ Tekitizy.prototype.actionPrev = function () {
     if(this.thumbnails){
       $('.tekitizy-thumbnail-image-content[data-index="'+this.index+'"]').css('opacity','0.5')
     }
-    $( ".tekitizy-list-container" ).animate({
-        marginLeft: '-'+index*100+'%'
-    }, 500);
+    if(this.effect){
+      $( ".tekitizy-list-container" ).animate({
+          marginLeft: '-'+index*100+'%'
+      }, 500);    
+    } else {
+      $( ".tekitizy-list-container" ).css('margin-left' , '-'+index*100+'%')        
+    }
 
     $('.tekitizy-image-title').html(this.listImg[index].title)
     this.index = index
@@ -243,9 +251,13 @@ Tekitizy.prototype.actionShowThumb = function (index) {
   $('.tekitizy-thumbnail-image-content[data-index="'+this.index+'"]').css('opacity','0.5')
   this.index = index
   var margin = $('.tekitizy-image-slider').width()
-  $( ".tekitizy-list-container" ).animate({
-      marginLeft: '-'+index*100+'%'
-  }, 500);
+  if(this.effect){
+    $( ".tekitizy-list-container" ).animate({
+        marginLeft: '-'+index*100+'%'
+    }, 500);    
+  } else {
+    $( ".tekitizy-list-container" ).css('margin-left' , '-'+index*100+'%')        
+  }
   $('.tekitizy-thumbnail-image-content[data-index="'+this.index+'"]').css('opacity','1')
 }
 
