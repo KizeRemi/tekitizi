@@ -18,8 +18,6 @@ Several actions are then available for the user.
 - [x] Scroll animation
 - [x] Thumbnails
 
-
-
 ## Prerequisites
 - Node: https://nodejs.org/en/
 - Bower: https://bower.io/
