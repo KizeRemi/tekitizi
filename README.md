@@ -1,7 +1,7 @@
 # Tekitizi
 **Slider created by Mavillaz Rémi and Paul Girardin**
 
-Github KizeRemi: https://github.com/KizeRemi
+Github KizeRemi: https://github.com/KizeRemi  
 GitHub PaulGirardin: https://github.com/PaulGirardin
 
 Javascript project developed during the Master Web Developer at the ECV Digitale - Paris.
