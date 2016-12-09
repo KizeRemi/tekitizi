@@ -1,37 +1,74 @@
 # Tekitizi
-Carroussel d'images
+**Slider created by Mavillaz Rémi and Paul Girardin**
 
-Projet Javascript développé durant le Master Développeur Web à l'ECV Digitale - Paris.
+Javascript project developed during the Master Web Developer at the ECV Digitale - Paris.
 
-Bibliothèque Javascript OpenSource qui permet d'intégrer un carroussel d'image directement sur une page html. Lorsque
-cette bibliothèque est appelée, elle ajoute une bouton d'action sur chaque image qui affiche l'image en grand en overlay.
-Plusieurs actions sont alors disponibles pour l'utilisateur.
+Javascript OpenSource library that allows to integrate a slider of image directly on an html page. Once again
+This library is called, it adds an action button on each image that displays the image in large overlay.
+Several actions are then available for the user.
 
-## Fonctionnalitées
-- [x] Bouton loupe discrète sur chaque image
-- [x] Affiche l'image en plein écran avec un overlay.
-- [x] Bouton Avancer: Passer à l'image suivante
-- [x] Bouton Reculer: Revenir à l'image précédente
-- [x] Bouton Fermer: Fermer le carroussel
-- [x] Bouton Jouer: Défiler les images automatiquement
-- [x] Bouton Stop: Arrêter le défilement automatique des images.
-- [x] Divers effets visuels
+## Fonctionalities
+- [x] Discrete zoom button on each image
+- [x] Displays images in full screen with an overlay.
+- [x] Button Next: Go to next image
+- [x] Bouton Before: Return to previous image
+- [x] Button close: Close the overlay
+- [x] Button Play: Scroll images automatically
+- [x] Button Stop: Stop the automatic scrolling of images
+- [x] Scroll animation
+- [x] Thumbnails
 
-## Pré-requis
+
+
+## Prerequisites
 - Node: https://nodejs.org/en/
 - Bower: https://bower.io/
 
 ## Installation
 
-Ouvrir le terminale ou ligne de commande, et dans le répertoire de votre choix:
+Open the terminal or command line, and in the directory of your choice:
 
 ```
 git pull https://github.com/KizeRemi/tekitizi.git
 ```
 
-Puis installer les différentes dépendances:
+Next, install dependencies with:
 ```
 bower install
 ```
 
-# A SUIVRE
+## Integration in your website
+
+In your html page, copy to include dependencies:
+```
+<script src="../js/tekitizy.js"></script>
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.css" >
+<link rel="stylesheet" href="../css/tekitizy.css" >
+```
+
+And the script for integrate Tekitizy:
+```
+<script>
+Tekitizy.setup('#YourElement img', {
+  prevNext: true, 
+  play: true, 
+  autoPlay: true, // démarre automatiquement l'animation - Etape 3
+  imageDuration: 2, // en secondes le temps qu'apparaît une image quand l'animation tourne - Etape 3
+  effect: true, // peut être `true`: une image pousse l'autre (de gauche à droite ou de droite à gauche suivant l'action, Etape 4)
+  thumbnails: true // affiche l'action "planche contact" (Thumbnails) - Etape BONUS
+})
+</script>
+```
+
+The script requires several parameters
+* prevNext: Display buttons next and previous
+* play: Display buttons play and stop
+* autoPlay: Enables automatic scroll by default
+* imageDuration: The duration of an image display during automatic scrolling
+* effect: Activate the slide effect
+* thumbnails: Activate the thumbnail
+
+## TODO
+- [x] Render of close button
+- [x] More parameters: number of image in thumbnail
