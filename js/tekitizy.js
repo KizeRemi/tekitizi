@@ -107,8 +107,8 @@ Tekitizy.prototype.drawCarroussel = function (id) {
     carroussel += '<i class="fa fa-play-circle-o tekitizy-button tekitizy-play-btn" aria-hidden="true"></i>'
     carroussel += '<i class="fa fa-pause-circle-o tekitizy-button tekitizy-pause-btn" aria-hidden="true"></i>'
   }
-  carroussel += '</div>'
   carroussel += '<div class="tekitizy-image-title tekitizy-carroussel-closed"></div>'
+  carroussel += '</div>'
   carroussel += '</div>'
   carroussel += '</div>'
   this.carroussel = $(carroussel)
