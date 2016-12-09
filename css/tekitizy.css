@@ -12,9 +12,16 @@
 .tekitizy-carroussel.tekitizy-carroussel-open {
   display: block;
 }
+
+.tekitizy-carroussel.tekitizy-carroussel-closed {
+  display: none;
+}
+
 .tekitizy-container{
+  display: inline-block;
   position: relative;
 }
+
 .tekitizy-button {
   position: fixed;
   width: 50px;
@@ -22,6 +29,7 @@
   font-size:50px;
   color: white;
 }
+
 .tekitizy-button:hover {
   color: grey;
 }
@@ -30,7 +38,12 @@
   position: absolute;
   right: 5px;
   bottom: 5px;
-  color: white
+  color: white;
+}
+
+.tekitizy-open-btn:hover {
+  cursor: pointer;
+  color: #CCC;
 }
 
 .tekitizy-close-btn {
@@ -56,7 +69,7 @@
 
 .tekitizy-pause-btn {
   top: 75%;
-  left: 43%;
+  left: 41.5%;
   font-size:70px;
 }
 .tekitizy-image-slider {
@@ -87,7 +100,12 @@
 
 .tekitizy-image-title {
   max-height: 20%;
+  width: 100%;
   color: white;
+  position: fixed;
+  text-align: center;
+  top: 71%;
+  left: 0;
 }
 
 .tekitizy-thumbnail {
